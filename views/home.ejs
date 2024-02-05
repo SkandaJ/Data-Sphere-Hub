@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboards</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/mdb-ui-kit/7.1.0/mdb.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js" integrity="sha384-I7E8VVD/ismYTF4hNIPjVp/Zjvgyol6VFvRkX/vR+Vc4jQkC+hVqc2pM8ODewa9r" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.min.js" integrity="sha384-BBtl+eGJRgqQAUMxJ7pMwbEyER4l1g+O15P+16Ep7Q9Q+zqX6gSbd85u4mG4QzX+" crossorigin="anonymous"></script>
+    <style>
+        iframe:hover {
+            transform: scale(1.1);
+            transition: transform 0.3s ease-in-out;
+        }
+
+        .position-relative iframe {
+            border: 2px solid #ffffff;
+            border-radius: 10px;
+            overflow: hidden;
+        }
+
+        .toolkit {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 10px;
+            padding: 10px;
+            background-color: #DAC0A3;
+            border: 1px solid #dee2e6;
+            border-radius: 10px;
+            transition: background-color 0.3s ease-in-out;
+        }
+
+        
+
+        .toolkit a:hover {
+            color: #0056b3;
+        }
+
+        .navbar {
+            background-color: #DAC0A3 !important;
+            border-radius: 10px;
+        }
+
+        .container.mt-4 {
+            background-color: #0F2C59;
+        }
+
+        body {
+            background-color: #0F2C59;
+        }
+    </style>
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            var profileTrigger = document.getElementById('profile-trigger');
+            var profileDropdown = document.getElementById('profile-dropdown');
+
+            function toggleDropdown() {
+                profileDropdown.classList.toggle('show');
+            }
+
+            profileTrigger.addEventListener('mouseenter', toggleDropdown);
+            profileTrigger.addEventListener('mouseleave', toggleDropdown);
+            profileDropdown.addEventListener('mouseenter', toggleDropdown);
+            profileDropdown.addEventListener('mouseleave', toggleDropdown);
+        });
+        document.addEventListener('DOMContentLoaded', function () {
+        var fullScreenButtons = document.querySelectorAll('.toolkit a[title="View in Full Screen"]');
+        
+        fullScreenButtons.forEach(function (button) {
+            button.addEventListener('click', function () {
+                var iframe = this.closest('.position-relative').querySelector('iframe');
+
+                if (iframe.requestFullscreen) {
+                    iframe.requestFullscreen();
+                } else if (iframe.mozRequestFullScreen) {
+                    iframe.mozRequestFullScreen();
+                } else if (iframe.webkitRequestFullscreen) {
+                    iframe.webkitRequestFullscreen();
+                } else if (iframe.msRequestFullscreen) {
+                    iframe.msRequestFullscreen();
+                }
+            });
+        });
+    });
+    </script>
+</head>
+<body>
+    <nav class="navbar navbar-expand-lg bg-body-tertiary">
+        <div class="container-fluid">
+            <a class="navbar-brand" href="#">Data Sphere Hub</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="d-flex">
+                <a href="/logout" class="btn btn-primary me-2">Logout</a>
+            </div>
+        </div>
+    </nav>
+
+    <% if (locals.dash) { %>
+        <% for (let i = 0; i < dash.length; i += 2) { %>
+            <div class="container mt-4">
+                <div class="row">
+                    <% for (let j = i; j < i + 2 && j < dash.length; j++) { %>
+                        <div class="col-md-6">
+                            <div class="position-relative">
+                                <iframe title="Dashboard" width="100%" height="300" src='<%= dash[j].url %>' frameborder="0" allowFullScreen="true"></iframe>
+                                <div class="toolkit">
+                                    <a href="#" title="Share"><i class="fas fa-share"></i> Share</a>
+                                    <a href="#" title="View in Full Screen"><i class="fas fa-expand"></i> Full Screen</a>
+                                    <a href="#" title="Report Error"><i class="fas fa-exclamation-triangle"></i> Report Error</a>
+                                    <a href="#" title="Note"><i class="fas fa-sticky-note"></i> Note</a>
+                                </div>
+                            </div>
+                        </div>
+                    <% } %>
+                </div>
+            </div>
+        <% } %>
+    <% } %>
+    
+
+</body>
+</html>
