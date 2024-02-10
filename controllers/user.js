@@ -1,4 +1,5 @@
 const User=require('../models/user')
+const REQ = require('../models/requests')
 const {v4: uuidv4} = require('uuid');
 const{setUser} = require('../service/auth');
 async function handleUserSignUp(req, res){
@@ -16,7 +17,7 @@ async function handleUserLogin(req, res){
     const user = await User.findOne({email, password,});
     if(!user)
         return res.render('login', {
-        error:"Invalid username and password",
+        error:"Invalid username or password",
     });
     const sessionId = uuidv4();
     setUser(sessionId, user);
@@ -24,7 +25,18 @@ async function handleUserLogin(req, res){
     return res.redirect('/');
 }
 
+async function handleUpload(req, res){
+    const {title, description} = req.body;
+    const filePath = req.file.path;
+    await REQ.create({
+        title,
+        file : filePath,
+        description,
+    });
+    return res.redirect('/upload');
+}
 module.exports={
     handleUserSignUp,
     handleUserLogin,
+    handleUpload,
 }

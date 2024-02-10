@@ -4,9 +4,10 @@ import mongoose from 'mongoose';
 import path from 'path';
 import { connectDB } from './connect.js';
 import cookieParse from 'cookie-parser';
-import { restrictToLoggedInUserOnly, checkAuth } from './middlewares/auth.js';
+import { restrictToLoggedInUserOnly, UserAuth, restrictToLoggedInDevOnly, DevAuth } from './middlewares/auth.js';
 import staticRoute from './routes/static_router.js';
 import userRoute from './routes/user.js';
+import devRoute from './routes/developer.js';
 
 connectDB('mongodb://localhost:27017/DataSphereHub').then(() => console.log("Database connected"));
 
@@ -21,8 +22,10 @@ app.use(express.urlencoded({ extended: false }));
 app.use(cookieParse());
 
 app.use('/userhome', restrictToLoggedInUserOnly);
+app.use('/devhome', restrictToLoggedInDevOnly);
 app.use('/user', userRoute);
-app.use('/', checkAuth, staticRoute);
+app.use('/developer', devRoute);
+app.use('/', UserAuth, DevAuth, staticRoute);
 
 import('./admin.mjs').then((adminModule) => {
   const { admin, adminRouter } = adminModule;

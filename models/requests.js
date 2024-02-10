@@ -2,20 +2,16 @@ const mongoose = require('mongoose');
 const req = new mongoose.Schema({
     title:{
         type:String,
-        requried:true,
+        required:true,
     },
     file:{
-        type: Buffer,
+        type: String,
         required: true,
     },
     description:{
         type:String,
         required:true,
     },
-    developers:{
-        type:mongoose.Schema.Types.ObjectId,
-        ref:"dev",
-    }
 });
 
 const REQ = mongoose.model("request", req);

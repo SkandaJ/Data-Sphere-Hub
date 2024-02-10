@@ -41,11 +41,18 @@
                 <a href="signup" class="btn btn-primary me-2">Sign Up</a>
             </div>
         </div>
+        
     </nav>
-
+    <% if(locals.error)  {%>
+        <div class="alert alert-danger" role="alert">
+            <%= locals.error %>
+          </div>
+        <% } %>
     <div class="login">
         <h3 class="text-center mb-4">Login</h3>
-        <form class="login-form" action="/user/login" method="post">
+        <label class="form-check-label mb-3" for="toggleSwitch">Developer Login</label>
+        <input type="checkbox" class="form-check-input mb-3" id="toggleSwitch">
+        <form class="login-form" id="userLoginForm" action="/user/login" method="post">
             <div class="mb-3">
                 <label for="username" class="form-label">Username</label>
                 <input type="text" class="form-control" id="username" placeholder="Email ID" name="email" required>
@@ -54,8 +61,36 @@
                 <label for="password" class="form-label">Password</label>
                 <input type="password" class="form-control" id="password" placeholder="Password" name="password" required>
             </div>
-            <button type="submit" class="btn btn-primary">Login</button>
+            <button type="submit" class="btn btn-primary">User Login</button>
+        </form>
+
+        <form class="login-form" id="developerLoginForm" action="/developer/login" method="post" style="display:none;">
+            <div class="mb-3">
+                <label for="devUsername" class="form-label">Developer Username</label>
+                <input type="text" class="form-control" id="devUsername" placeholder="Email ID" name="email" required>
+            </div>
+            <div class="mb-3">
+                <label for="devPassword" class="form-label">Developer Password</label>
+                <input type="password" class="form-control" id="devPassword" placeholder="Password" name="password" required>
+            </div>
+            <button type="submit" class="btn btn-primary">Developer Login</button>
         </form>
     </div>
+
+    <script>
+        const toggleSwitch = document.getElementById('toggleSwitch');
+        const userLoginForm = document.getElementById('userLoginForm');
+        const developerLoginForm = document.getElementById('developerLoginForm');
+
+        toggleSwitch.addEventListener('change', function() {
+            if (this.checked) {
+                userLoginForm.style.display = 'none';
+                developerLoginForm.style.display = 'block';
+            } else {
+                userLoginForm.style.display = 'block';
+                developerLoginForm.style.display = 'none';
+            }
+        });
+    </script>
 </body>
 </html>
