@@ -1,7 +1,9 @@
 const express =  require('express');
 const router = express.Router();
+const path = require('path');
 const DASH = require('../models/dashboards');
 const REQ = require('../models/requests');
+const Accepted = require('../models/accepted');
 router.get('/landing_page', (req, res)=>{
     res.render('landing_page');
 });
@@ -42,5 +44,24 @@ router.get('/dev_home', async(req, res)=>{
     return res.render('dev_home', {
         req:allreq
     });
+});
+
+router.get('/download', async (req, res) => {
+    const filePath = req.query.path;
+    const absoluteFilePath = path.join(__dirname, '../', filePath); 
+    res.download(absoluteFilePath);
+    await REQ.deleteOne({file: filePath});
+});
+
+router.get('/services', async(req, res) => {
+    const service = await DASH.find({});
+    return res.render('services', {
+        serv: service
+    });
+});
+
+router.get('/dev_upload', async(req, res)=>{
+    if(!req.dev) return res.redirect('/login');
+    return res.render('dev_upload');
 });
 module.exports = router;

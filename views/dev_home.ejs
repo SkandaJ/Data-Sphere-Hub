@@ -31,8 +31,6 @@
             transition: background-color 0.3s ease-in-out;
         }
 
-        
-
         .toolkit a:hover {
             color: #0056b3;
         }
@@ -48,6 +46,92 @@
 
         body {
             background-color: #c4dcf7;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+
+        th, td {
+            padding: 8px;
+            text-align: left;
+            border-bottom: 1px solid #ddd;
+        }
+
+        th {
+            background-color: #f2f2f2;
+        }
+
+        tbody tr:hover {
+            background-color: #f5f5f5;
+        }
+
+        button {
+            padding: 5px 10px;
+            border: none;
+            background-color: #007bff;
+            color: #fff;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background-color: #0056b3;
+        }
+        th{
+            text-align: center;
+        }
+        td {
+            padding: 10px;
+            text-align: center;
+            border-bottom: 2px solid #ddd;
+            max-width: 200px; 
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+            word-wrap: break-word; 
+        }
+
+        .description {
+            white-space: normal; 
+            padding:8px 5px;
+        }
+        .action{
+            padding:8px 50px;
+        }
+        td:not(:last-child) {
+            border-right: 2px solid #ddd;
+
+        }
+        .title{
+            padding:1px 0.1px;
+        }
+        tbody tr:nth-child(even) {
+    background-color: #d3cfcf;
+}
+
+tbody tr:nth-child(odd) {
+    background-color: #ffffff;
+}
+.cta-button:hover {
+            background-color: #0F2C59;
+            color: #eee;
+        }
+        .cta-button{
+        display: inline-block;
+            padding: 3px 5px;
+            font-size: 15px;
+            background-color: #d9ebff;
+            color: #0F2C59;
+            text-decoration: none;
+            border-radius: 5px;
+            transition: background-color 0.3s ease;
+            margin-right: 5px;
+            border-radius: 10px;
+            margin-bottom: 15px;
+            margin-top: 10px;
         }
     </style>
    
@@ -65,26 +149,82 @@
             </div>
         </div>
     </nav>
-    <% if(locals.req) {%>
-    <table>
-      <thead>
-      <tr>
-        <th>Title</th>
-        <th>Description</th>
-        <th>File</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr>
-        <% req.forEach((req) => {%>
-        <td><%= req.title %></td>
-        <td><%= req.description %></td>
-        <td><%= req.file %></td>
-        <% }) %>
-      </tr>
-    </tbody>
-    </table>
-    <% } %>
+    <% if(locals.req) { %>
+        <div class="container mt-4">
+            <table>
+                <thead>
+                    <tr>
+                        <th>Title</th>
+                        <th>Description</th>
+                        <th>Action</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <% req.forEach((req) => { %>
+                        <tr>
+                            <td class="title"><%= req.title %></td>
+                            <td class="description">
+                                <span class="full-text" style="display: none;"><%= req.description %></span>
+                                <span class="short-text"><%= req.description.substring(0, 100) + '...' %></span>
+                                <button class="show-more" data-toggle="true" style="padding: 3px 6px; font-size: 7px;">Show More</button>
+                                <button class="show-less" style="display: none; padding: 3px 6px; font-size: 7px;">Show Less</button>
+                            </td>
+                            <td class="action">
+                                <form action="/download" method="GET" id="<%= req.id %>"> 
+                                    <input type="hidden" name="path" value="<%= req.file %>">
+                                    <button type="submit">Work On</button>
+                                </form>
+                            </td>
+                        </tr>
+                    <% }) %>
+                </tbody>
+            </table>
+        </div>
+        <% } %>
+    
+        <script>
+            document.addEventListener('DOMContentLoaded', function () {
+                var showMoreButtons = document.querySelectorAll('.show-more');
+                var showLessButtons = document.querySelectorAll('.show-less');
+    
+                showMoreButtons.forEach(function (button) {
+                    button.addEventListener('click', function () {
+                        var parentCell = this.parentElement;
+                        var fullText = parentCell.querySelector('.full-text');
+                        var shortText = parentCell.querySelector('.short-text');
+                        
+                        fullText.style.display = 'inline';
+                        shortText.style.display = 'none';
+                        this.style.display = 'none';
+                        parentCell.querySelector('.show-less').style.display = 'inline';
+                    });
+                });
+    
+                showLessButtons.forEach(function (button) {
+                    button.addEventListener('click', function () {
+                        var parentCell = this.parentElement;
+                        var fullText = parentCell.querySelector('.full-text');
+                        var shortText = parentCell.querySelector('.short-text');
+                        
+                        fullText.style.display = 'none';
+                        shortText.style.display = 'inline';
+                        this.style.display = 'none';
+                        parentCell.querySelector('.show-more').style.display = 'inline';
+                    });
+                });
+            });
 
-</body>
-</html>
+            document.addEventListener('DOMContentLoaded', function () {
+        var forms = document.querySelectorAll('form');
+        forms.forEach(function(form) {
+            form.addEventListener('submit', function(event) {
+                if (!confirm("Are you sure you want to download this file? You cannot revert back the process.")) {
+                    event.preventDefault();
+                    alert('Download Cancelled');
+                }
+            });
+        });
+    });
+        </script>
+    </body>
+    </html>

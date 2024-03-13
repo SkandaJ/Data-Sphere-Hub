@@ -8,7 +8,6 @@ const dash = new mongoose.Schema(
         createdFor: {
             type: String,
             required:true,
-            ref: "users",
         }
     }
 );

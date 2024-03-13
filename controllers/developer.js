@@ -1,4 +1,5 @@
 const Dev = require('../models/dev');
+const DASH = require('../models/dashboards');
 const {v4: uuidv4} = require('uuid');
 const{setDev} = require('../service/auth');
 async function handleDevLogin(req, res){
@@ -13,6 +14,16 @@ async function handleDevLogin(req, res){
     res.cookie('did', sessionId);
     return res.redirect('/dev_home');
 }
+
+async function handleDevUpload(req, res){
+    const {url, createdFor} = req.body;
+    await DASH.create({
+        url,
+        createdFor,
+    });
+    return res.redirect('/dev_upload');
+}
 module.exports={
     handleDevLogin,
+    handleDevUpload,
 }
