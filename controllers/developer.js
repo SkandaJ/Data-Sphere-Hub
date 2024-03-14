@@ -13,6 +13,7 @@ async function handleDevLogin(req, res){
     setDev(sessionId, dev);
     res.cookie('did', sessionId);
     return res.redirect('/dev_home');
+
 }
 
 async function handleDevUpload(req, res){
@@ -21,7 +22,9 @@ async function handleDevUpload(req, res){
         url,
         createdFor,
     });
-    return res.redirect('/dev_upload');
+    return res.render('dev_upload', {
+        success:"Dashboard has been uploaded successfully"
+    });
 }
 module.exports={
     handleDevLogin,

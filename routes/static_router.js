@@ -7,6 +7,7 @@ const Accepted = require('../models/accepted');
 router.get('/landing_page', (req, res)=>{
     res.render('landing_page');
 });
+
 router.get('/', async (req, res)=>{
     if(!req.user) return res.redirect('/login');
     const alldash = await DASH.find({createdFor: req.user.email});

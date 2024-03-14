@@ -95,7 +95,7 @@
             padding: 20px;
             border-radius: 30px;
             position: absolute;
-            top: 90px;
+            top: 130px;
             left: 20px;
             width: 97%;
         }
@@ -141,6 +141,11 @@ textarea {
             </div>
         </div>
     </nav>
+    <% if(locals.success)  {%>
+        <div class="alert alert-success" role="alert">
+            <%= locals.success %>
+          </div>
+        <% } %>
 <div class="login">
     <h3 class="text-center mb-4">Upload Dashboard</h3>
         <div class="mb-3">
@@ -148,7 +153,7 @@ textarea {
             <input type="text" class="form-control" id="url" name="url" required>
         </div>
         <div class="mb-3">
-            <label for="description" class="form-label">Username</label>
+            <label for="description" class="form-label">UserID</label>
             <input type="text" class="form-control" id="createdFor" name="createdFor" required>
         </div>
         <button type="submit" class="btn btn-primary">Upload Dashboard</button>

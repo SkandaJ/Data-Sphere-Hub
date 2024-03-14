@@ -1,9 +1,11 @@
 import AdminJS from 'adminjs';
+import mongoose from 'mongoose';
 import AdminJSExpress from '@adminjs/express';
 import { Database, Resource } from '@adminjs/mongoose';
 import Dev from './models/dev.js';
 import DASH from './models/dashboards.js';
 import REQ from './models/requests.js';
+import User from './models/user.js';
 import express from 'express';
 
 AdminJS.registerAdapter({
@@ -22,12 +24,13 @@ const authenticate = async (email, password) => {
   }
   return null;
 };
-
+await mongoose.connect('mongodb://localhost:27017/DataSphereHub');
 const admin = new AdminJS({
   resources: [
     Dev,
     DASH,
     REQ,
+    User,
   ],
   rootPath: '/admin',
   authenticate,

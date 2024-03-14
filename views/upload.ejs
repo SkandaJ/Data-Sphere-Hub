@@ -95,7 +95,7 @@
             padding: 20px;
             border-radius: 30px;
             position: absolute;
-            top: 90px;
+            top: 130px;
             left: 20px;
             width: 97%;
         }
@@ -141,6 +141,11 @@ textarea {
             </div>
         </div>
     </nav>
+    <% if(locals.success)  {%>
+        <div class="alert alert-success" role="alert">
+            <%= locals.success %>
+          </div>
+        <% } %>
 <div class="login">
     <h3 class="text-center mb-4">Request</h3>
         <div class="mb-3">

@@ -12,6 +12,10 @@ const req = new mongoose.Schema({
         type:String,
         required:true,
     },
+    requestedBy:{
+        type:mongoose.Schema.Types.ObjectId,
+        ref:"users",
+    },
 });
 
 const REQ = mongoose.model("request", req);
