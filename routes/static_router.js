@@ -3,7 +3,6 @@ const router = express.Router();
 const path = require('path');
 const DASH = require('../models/dashboards');
 const REQ = require('../models/requests');
-const Accepted = require('../models/accepted');
 router.get('/landing_page', (req, res)=>{
     res.render('landing_page');
 });
