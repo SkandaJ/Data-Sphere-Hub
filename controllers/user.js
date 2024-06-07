@@ -1,5 +1,3 @@
-// user.js
-
 const User = require('../models/user');
 const REQ = require('../models/requests');
 const { v4: uuidv4 } = require('uuid');
